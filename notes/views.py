@@ -1,7 +1,8 @@
+import re
 from django.shortcuts import render
 from .models import Note
 from django.shortcuts import redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,  JsonResponse
 import uuid
 
 
@@ -10,9 +11,10 @@ def index(request):
 
 def add_note(request):
     if request.method == 'POST':
+        print(request.POST)
         new = Note.objects.create(text=request.POST['text'], uniq=uuid.uuid4())
         new.save
-        return redirect(f'/note/{new.uniq}')
+        return  JsonResponse({'link':f'127.0.0.1:8000/note/{new.uniq}'})
 
 
 def note(request, uniqid):
@@ -20,6 +22,7 @@ def note(request, uniqid):
     if note != None:
         context = {'secret_message': note.text,
                 'secret_title': note.id }
+        note.delete()
         return render(request, 'note.html', context)
     else:
-        return HttpResponse("404")
+        return HttpResponse("Deleted")
