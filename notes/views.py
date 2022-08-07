@@ -11,7 +11,6 @@ def index(request):
 
 def add_note(request):
     if request.method == 'POST':
-        print(request.POST)
         new = Note.objects.create(text=request.POST['text'], uniq=uuid.uuid4())
         new.save
         return  JsonResponse({'link':f'127.0.0.1:8000/note/{new.uniq}'})
@@ -20,8 +19,7 @@ def add_note(request):
 def note(request, uniqid):
     note = Note.objects.filter(uniq=uniqid).first()
     if note != None:
-        context = {'secret_message': note.text,
-                'secret_title': note.id }
+        context = {'secret_message': note.text}
         note.delete()
         return render(request, 'note.html', context)
     else:
