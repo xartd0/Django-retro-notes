@@ -1,5 +1,5 @@
 # django-simple-retro-notes
-Creates a unique link with a message that a person has written in a retro-style form
+Creates unique auto-delete link with a message that a person has written in a retro-style form
 
 ### Installation
 
